@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/wonderland_styles.css">
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar" style="background-color: #9932CC;">
+        <a class="navbar-brand" href="#">
+          <img src="../static/logo.png" width="45" height="60" alt="">
+          Зазеркалье
+        </a>
+        <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Игры <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Софт</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href  ="https://vk.com/d4ruma">Поддержка</a>
+      </li>
+    </ul>
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+          <li class="nav-item">
+              <a class="nav-link p-2" href="#">Зарегистрироваться
+              </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  <!-- Begin page content -->
+  <main role="main" class="container">
+    {% block content %}{% endblock %}
+  </main>
+  </body>
+</html>
