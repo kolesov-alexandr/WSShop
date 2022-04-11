@@ -1,13 +1,14 @@
 import datetime
 import sqlalchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 from .db_session import SqlAlchemyBase
 
 
-class User(SqlAlchemyBase):
+class User(SqlAlchemyBase, UserMixin):
     __tablename__ = 'users'
-    #id
+    # id
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
     # логин имейл и телефон через которые можно заходить
@@ -16,7 +17,7 @@ class User(SqlAlchemyBase):
     email = sqlalchemy.Column(sqlalchemy.String,
                               index=True, unique=True, nullable=True)
     telephone = sqlalchemy.Column(sqlalchemy.String,
-                              index=True, unique=True, nullable=True)
+                                  index=True, unique=True, nullable=True)
 
     # имя и фамилия
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
