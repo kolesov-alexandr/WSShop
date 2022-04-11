@@ -2,6 +2,8 @@ from flask import Flask, render_template, redirect
 from data import db_session
 from data.users import User
 from forms.user import RegisterForm
+from flask_login import LoginManager, login_user, login_required, logout_user
+from forms.user import LoginForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '6f7db8d75e94bcdeb5d1c47d7bba0f0e'
@@ -74,6 +76,13 @@ def login():
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template('test_login.html', title='Авторизация', form=form)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
 
 
 if __name__ == '__main__':

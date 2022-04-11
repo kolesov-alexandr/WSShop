@@ -28,12 +28,18 @@
         <a class="nav-link" href  ="https://vk.com/d4ruma">Поддержка</a>
       </li>
     </ul>
-        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-          <li class="nav-item">
-              <a class="nav-link p-2" href="/register">Зарегистрироваться
-              </a>
-          </li>
-        </ul>
+        {% if current_user.is_authenticated %}
+            <a class="nav-link p-2" href="/logout">{{ current_user.name }}</a>
+        {% else %}
+            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+              <li class="nav-item">
+                  <a class="nav-link p-2" href="/register">Зарегистрироваться</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link p-2" href="/login">Войти</a>
+              </li>
+            </ul>
+        {% endif %}
       </nav>
     </header>
   <!-- Begin page content -->
