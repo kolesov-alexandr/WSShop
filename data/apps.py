@@ -6,6 +6,15 @@ import sqlalchemy
 from .db_session import SqlAlchemyBase
 
 
+user_to_app = sqlalchemy.Table(
+    'user_to_app',
+    SqlAlchemyBase.metadata,
+    sqlalchemy.Column('users', sqlalchemy.Integer,
+                      sqlalchemy.ForeignKey('users.id')),
+    sqlalchemy.Column('apps', sqlalchemy.Integer,                      sqlalchemy.ForeignKey('apps.id'))
+)
+
+
 class App(SqlAlchemyBase):
     __tablename__ = 'apps'
 

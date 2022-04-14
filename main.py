@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect
 from data import db_session
+from data.apps import App
 from data.users import User
 from forms.user import RegisterForm
 from flask_login import LoginManager, login_user, login_required, logout_user
@@ -25,7 +26,9 @@ def load_user(user_id):
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Домашняя страница')
+    db_sess = db_session.create_session()
+    apps = db_sess.query(App).all()
+    return render_template('index.html', title='Домашняя страница', apps=apps)
 
 
 @app.route('/register', methods=['GET', 'POST'])

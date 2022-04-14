@@ -1,5 +1,17 @@
 {% extends "header_temp.html" %}
 
 {% block content %}
-Объекты с новинками
+<div class="flex-container">
+{% for item in apps%}
+
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{item.name}}</h5>
+    <p class="card-text">{{item.description}}</p>
+    <a href="#" class="btn btn-primary">{{item.price}}</a>
+  </div>
+</div>
+{% endfor %}
+  </div>
 {% endblock %}
