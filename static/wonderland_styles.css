@@ -1,3 +1,15 @@
 .flex-container {
   display: flex;
+  justify-content: space-around;
+  position: relative;
+  right: 40% ;
+  top: 30px ;
+
+}
+
+.flex-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
 }
