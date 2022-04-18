@@ -1,5 +1,5 @@
 import flask_login
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, abort
 from data import db_session
 from data.apps import App
 from data.users import User
@@ -101,7 +101,7 @@ def product_page(name):
     return render_template('product_page.html', title='Домашняя страница', product=product)
 
 
-@app.route('/product_buy/<name>', methods=['GET', 'POST'])
+@app.route('/product_buy&<name>', methods=['GET', 'POST'])
 @login_required
 def news_delete(name):
     db_sess = db_session.create_session()
