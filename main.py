@@ -93,5 +93,12 @@ def self_page(login):
     return render_template('self_page.html', title='Домашняя страница', login=login)
 
 
+@app.route('/product_page&<name>')
+def product_page(name):
+    db_sess = db_session.create_session()
+    product = db_sess.query(App).filter(App.name == name).first()
+    return render_template('product_page.html', title='Домашняя страница', product=product)
+
+
 if __name__ == '__main__':
     main()

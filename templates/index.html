@@ -9,7 +9,7 @@
   <div class="card-body flex-card">
     <h5 class="card-title">{{item.name}}</h5>
     <p class="card-text">{{item.description}}</p>
-    <a href="#" class="btn btn-dark">купить за {{item.price}}$</a>
+    <a href="/product_page&{{item.name}}" class="btn btn-dark">купить за {{item.price}}$</a>
   </div>
 </div>
 {% endfor %}
