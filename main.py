@@ -88,5 +88,10 @@ def logout():
     return redirect("/")
 
 
+@app.route('/self_page&<login>')
+def self_page(login):
+    return render_template('self_page.html', title='Домашняя страница', login=login)
+
+
 if __name__ == '__main__':
     main()

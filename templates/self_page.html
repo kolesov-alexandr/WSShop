@@ -1,0 +1,9 @@
+{% extends "header_temp.html" %}
+
+{% block content %}
+{% if current_user.is_authenticated and current_user.login == login %}
+<h1>{{current_user.name}}</h1>
+{% else %}
+<h1>Something wrong</h1>
+{% endif %}
+{% endblock %}
