@@ -1,3 +1,4 @@
+import flask_login
 from flask import Flask, render_template, redirect
 from data import db_session
 from data.apps import App
@@ -98,6 +99,20 @@ def product_page(name):
     db_sess = db_session.create_session()
     product = db_sess.query(App).filter(App.name == name).first()
     return render_template('product_page.html', title='Домашняя страница', product=product)
+
+
+@app.route('/product_buy/<name>', methods=['GET', 'POST'])
+@login_required
+def news_delete(name):
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == flask_login.current_user.id).first()
+    product = db_sess.query(App).filter(App.name == name).first()
+    if product:
+        user.apps.append(product)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
 
 
 if __name__ == '__main__':

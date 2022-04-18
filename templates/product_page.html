@@ -3,7 +3,7 @@
 {% block content %}
 <h1>{{product.name}}</h1>
 {% if current_user.is_authenticated %}
-<a href="#" class="btn btn-dark">купить за {{item.price}}₽</a>
+<a href="/product_buy/{{product.name}}" class="btn btn-dark">купить за {{product.price}}₽</a>
 {% else %}
 <a class="btn btn-dark" href="/login">Войти</a>
 {% endif %}
