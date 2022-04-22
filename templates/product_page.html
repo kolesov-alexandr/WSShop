@@ -33,7 +33,11 @@
     </p>
   </div>
 {% if current_user.is_authenticated %}
+  {% if was_bought%}
+  <button type="button" class="btn btn-secondary" disabled>Уже куплено</button>
+  {% else %}
 <a href="/product_buy&{{product.name}}" class="btn btn-dark">купить за {{product.price}}₽</a>
+  {% endif %}
 {% else %}
 <a class="btn btn-dark" href="/login">Войти</a>
 {% endif %}

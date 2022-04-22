@@ -101,7 +101,9 @@ def self_page(login):
 def product_page(name):
     db_sess = db_session.create_session()
     product = db_sess.query(App).filter(App.name == name).first()
-    return render_template('product_page.html', title='Домашняя страница', product=product)
+    user = db_sess.query(User).filter(User.id == flask_login.current_user.id).first()
+    was_bought = product in user.apps
+    return render_template('product_page.html', title='Домашняя страница', product=product, was_bought=was_bought)
 
 
 @app.route('/product_buy&<name>', methods=['GET', 'POST'])
