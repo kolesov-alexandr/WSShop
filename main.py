@@ -19,6 +19,21 @@ def main():
     app.run()
 
 
+@app.errorhandler(400)
+def bad_request(error):
+    return redirect("/bad_request")
+
+
+@app.errorhandler(401)
+def not_authorized(error):
+    return redirect("/login")
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return redirect("/not_found")
+
+
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
