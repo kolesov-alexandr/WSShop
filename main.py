@@ -1,6 +1,6 @@
 import flask_login
 from flask import Flask, render_template, redirect, abort
-from data import db_session
+from data import db_session, api
 from data.apps import App
 from data.users import User
 from forms.user import RegisterForm
@@ -15,6 +15,7 @@ login_manager.init_app(app)
 
 def main():
     db_session.global_init("db/blogs.db")
+    app.register_blueprint(api.blueprint)
     app.run()
 
 
