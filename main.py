@@ -98,6 +98,7 @@ def self_page(login):
 
 
 @app.route('/product_page&<name>')
+@login_required
 def product_page(name):
     db_sess = db_session.create_session()
     product = db_sess.query(App).filter(App.name == name).first()
