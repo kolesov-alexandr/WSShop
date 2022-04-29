@@ -91,19 +91,25 @@ def logout():
 
 @app.route('/self_page&<login>')
 def self_page(login):
-    return render_template('self_page.html', title='Домашняя страница', login=login)
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.login == login).first()
+    user_apps = user.apps
+    return render_template('self_page.html', title='Домашняя страница', login=user.login, collection=user_apps)
 
 
 @app.route('/product_page&<name>')
+@login_required
 def product_page(name):
     db_sess = db_session.create_session()
     product = db_sess.query(App).filter(App.name == name).first()
-    return render_template('product_page.html', title='Домашняя страница', product=product)
+    user = db_sess.query(User).filter(User.id == flask_login.current_user.id).first()
+    was_bought = product in user.apps
+    return render_template('product_page.html', title='Домашняя страница', product=product, was_bought=was_bought)
 
 
 @app.route('/product_buy&<name>', methods=['GET', 'POST'])
 @login_required
-def news_delete(name):
+def buy_product(name):
     db_sess = db_session.create_session()
     user = db_sess.query(User).filter(User.id == flask_login.current_user.id).first()
     product = db_sess.query(App).filter(App.name == name).first()
@@ -112,7 +118,7 @@ def news_delete(name):
         db_sess.commit()
     else:
         abort(404)
-    return redirect('/')
+    return redirect('/index')
 
 
 if __name__ == '__main__':
