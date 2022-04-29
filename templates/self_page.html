@@ -3,6 +3,11 @@
 {% block content %}
 {% if current_user.is_authenticated and current_user.login == login %}
 <h1>{{current_user.name}}</h1>
+<div>
+  <img src="../users_photo/{{current_user.name}}">
+<input type="file" name="file">
+  <input type="submit" value="Upload">
+</div>
 <h1>Ваша коллекция:</h1>
 {% for item in collection%}
 <div class="alert alert-dark" role="alert">
@@ -10,6 +15,6 @@
 </div>
 {% endfor %}
 {% else %}
-<h1>Еще невозможно смотреть чужие страницы</h1>
+<h1>Вы не можете смотреть чужие страницы</h1>
 {% endif %}
 {% endblock %}

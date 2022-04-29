@@ -6,9 +6,16 @@ from data.users import User
 from forms.user import RegisterForm
 from flask_login import LoginManager, login_user, login_required, logout_user
 from forms.user import LoginForm
+import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+UPLOAD_FOLDER = '/static/users_photos'
+ALLOWED_EXTENSIONS = set(['gif', 'png', 'jpg', 'jpeg'])
+
 app.config['SECRET_KEY'] = '6f7db8d75e94bcdeb5d1c47d7bba0f0e'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -119,6 +126,12 @@ def buy_product(name):
     else:
         abort(404)
     return redirect('/index')
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1) in ALLOWED_EXTENSIONS
+
+
 
 
 if __name__ == '__main__':
