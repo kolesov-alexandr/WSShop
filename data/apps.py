@@ -1,7 +1,6 @@
 import datetime
 import sqlalchemy
-# нужно продумать связь коллекции пользователя и таблиц
-# from sqlalchemy import orm
+from sqlalchemy import orm
 
 from .db_session import SqlAlchemyBase
 
@@ -25,11 +24,16 @@ class App(SqlAlchemyBase):
 
     description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
-    developer = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    publisher = sqlalchemy.Column(sqlalchemy.Integer,
+                                sqlalchemy.ForeignKey("users.id"))
 
-    publisher = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    user = orm.relation('User')
 
     price = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
 
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
+
+    download_link = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
+    comments = orm.relation("Comment", back_populates='app')

@@ -56,16 +56,11 @@ def reqister():
             return render_template('test_register.html', title='Регистрация',
                                    form=form,
                                    message="Пользователь с таким логином уже существует")
-        if db_sess.query(User).filter(User.telephone == form.telephone.data).first():
-            return render_template('test_register.html', title='Регистрация',
-                                   form=form,
-                                   message="Этот номер телефона уже используется")
         user = User(
             name=form.name.data,
             surname=form.surname.data,
             email=form.email.data,
             login=form.login.data,
-            telephone=form.telephone.data,
         )
         user.set_password(form.password.data)
         db_sess.add(user)

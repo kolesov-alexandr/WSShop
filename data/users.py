@@ -17,8 +17,6 @@ class User(SqlAlchemyBase, UserMixin):
                               index=True, unique=True, nullable=True)
     email = sqlalchemy.Column(sqlalchemy.String,
                               index=True, unique=True, nullable=True)
-    telephone = sqlalchemy.Column(sqlalchemy.String,
-                                  index=True, unique=True, nullable=True)
 
     # имя и фамилия
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
@@ -29,6 +27,9 @@ class User(SqlAlchemyBase, UserMixin):
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
 
+    pocket = sqlalchemy.Column(sqlalchemy.Integer, nullable=False, default=100)
+
+
     apps = orm.relation("App",
                               secondary="user_to_app",
                               backref="users")
@@ -38,3 +39,6 @@ class User(SqlAlchemyBase, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
+
+    comments = orm.relation("Comment", back_populates='user')
+    published_apps = orm.relation("App", back_populates='user')
