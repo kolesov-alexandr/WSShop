@@ -1,6 +1,6 @@
 import sqlalchemy
-from sqlalchemy import orm
 
+from sqlalchemy import orm
 from data.db_session import SqlAlchemyBase
 
 

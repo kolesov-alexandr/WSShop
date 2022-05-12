@@ -1,4 +1,6 @@
 import flask_login
+import os
+
 from flask import Flask, render_template, redirect, abort, request, url_for, send_from_directory
 from data import db_session
 from data.apps import App
@@ -7,7 +9,6 @@ from forms.app import AppForm
 from forms.user import RegisterForm
 from flask_login import LoginManager, login_user, login_required, logout_user
 from forms.user import LoginForm
-import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -97,7 +98,8 @@ def self_page(login):
     db_sess = db_session.create_session()
     user = db_sess.query(User).filter(User.login == login).first()
     user_apps = user.apps
-    return render_template('self_page.html', title='Домашняя страница', login=user.login, collection=user_apps)
+    return render_template('self_page.html', title='Домашняя страница', login=user.login,
+                           collection=user_apps)
 
 
 @app.route('/product_page&<name>')
@@ -107,7 +109,8 @@ def product_page(name):
     product = db_sess.query(App).filter(App.name == name).first()
     user = db_sess.query(User).filter(User.id == flask_login.current_user.id).first()
     was_bought = product in user.apps
-    return render_template('product_page.html', title='Домашняя страница', product=product, was_bought=was_bought)
+    return render_template('product_page.html', title='Домашняя страница', product=product,
+                           was_bought=was_bought)
 
 
 @app.route('/product_buy&<name>', methods=['GET', 'POST'])
@@ -124,30 +127,29 @@ def buy_product(name):
     return redirect('/index')
 
 
-@app.route('/create_app',  methods=['GET', 'POST'])
+@app.route('/create_app', methods=['GET', 'POST'])
 @login_required
 def create_app():
     form = AppForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        app = App()
-        app.name = form.name.data
-        app.description = form.description.data
-        app.publisher = flask_login.current_user.id
-        app.price = form.price.data
-        app.download_link = form.download_link.data
-        db_sess.add(app)
+        app_ = App()
+        app_.name = form.name.data
+        app_.description = form.description.data
+        app_.publisher = flask_login.current_user.id
+        app_.price = form.price.data
+        app_.download_link = form.download_link.data
+        db_sess.add(app_)
         db_sess.commit()
 
         product = db_sess.query(App).filter(App.name == form.name.data).first()
 
         f = request.files['file']
-        f.save(os.path.join(app.config['UPLOAD_FOLDER'], str(product.id)))
+        if f and allowed_file(f.filename):
+            f.save(os.path.join(app_.config['UPLOAD_FOLDER'], secure_filename(str(product.id))))
         return redirect('/')
     return render_template('create_app.html', title='Добавление приложения',
                            form=form)
-
-
 
 
 def allowed_file(filename):
