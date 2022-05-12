@@ -1,8 +1,9 @@
 import flask_login
-from flask import Flask, render_template, redirect, abort
+from flask import Flask, render_template, redirect, abort, request, url_for, send_from_directory
 from data import db_session
 from data.apps import App
 from data.users import User
+from forms.app import AppForm
 from forms.user import RegisterForm
 from flask_login import LoginManager, login_user, login_required, logout_user
 from forms.user import LoginForm
@@ -10,7 +11,7 @@ import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-UPLOAD_FOLDER = '/static/users_photos'
+UPLOAD_FOLDER = '/static/soft_images/'
 ALLOWED_EXTENSIONS = set(['gif', 'png', 'jpg', 'jpeg'])
 
 app.config['SECRET_KEY'] = '6f7db8d75e94bcdeb5d1c47d7bba0f0e'
@@ -121,6 +122,32 @@ def buy_product(name):
     else:
         abort(404)
     return redirect('/index')
+
+
+@app.route('/create_app',  methods=['GET', 'POST'])
+@login_required
+def create_app():
+    form = AppForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        app = App()
+        app.name = form.name.data
+        app.description = form.description.data
+        app.publisher = flask_login.current_user.id
+        app.price = form.price.data
+        app.download_link = form.download_link.data
+        db_sess.add(app)
+        db_sess.commit()
+
+        product = db_sess.query(App).filter(App.name == form.name.data).first()
+
+        f = request.files['file']
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], str(product.id)))
+        return redirect('/')
+    return render_template('create_app.html', title='Добавление приложения',
+                           form=form)
+
+
 
 
 def allowed_file(filename):
